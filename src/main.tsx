@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import '@telegram-apps/telegram-ui/dist/styles.css'
 import { App } from '@/app'
 import '@/app/styles/index.scss'
 
