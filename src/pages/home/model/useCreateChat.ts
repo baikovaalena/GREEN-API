@@ -1,13 +1,14 @@
 import { useAppDispatch } from '@app/store'
+import { useAuth } from '@entities/auth'
 import { addChat } from '@entities/chat'
 import { useCheckAccountMutation } from '@/shared/api/authApi'
-import type { ILoginRequest } from '@/shared/api/types'
 import { useState, type FormEvent } from 'react'
 
 const normalizePhone = (phone: string) => phone.replace(/\D/g, '')
 
-export const useCreateChat = (credentials: ILoginRequest | null) => {
+export const useCreateChat = () => {
   const dispatch = useAppDispatch()
+  const { credentials } = useAuth()
   const [checkAccount, { isLoading }] = useCheckAccountMutation()
   const [phone, setPhone] = useState('')
   const [errorMessage, setErrorMessage] = useState('')

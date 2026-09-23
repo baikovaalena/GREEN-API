@@ -6,12 +6,15 @@ import {
   Title,
 } from '@telegram-apps/telegram-ui'
 import styles from './RegistrationPage.module.scss'
+import { useAppDispatch } from '@app/store'
+import { setCredentials } from '@entities/auth'
 import { useLoginMutation } from '@/shared/api/authApi'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const RegistrationPage = () => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [login, { isLoading, error }] = useLoginMutation()
   const [idInstance, setIdInstance] = useState<number | null>(null)
   const [apiTokenInstance, setApiTokenInstance] = useState<string | null>(null)
@@ -26,7 +29,8 @@ export const RegistrationPage = () => {
 
     try {
       await login({ id: idInstance, token: apiTokenInstance }).unwrap()
-      navigate('/home', { state: { id: idInstance, token: apiTokenInstance } })
+      dispatch(setCredentials({ id: idInstance, token: apiTokenInstance }))
+      navigate('/home')
     } catch {
       setErrorMessage('Не удалось выполнить вход')
     }

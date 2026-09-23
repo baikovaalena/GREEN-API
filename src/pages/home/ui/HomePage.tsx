@@ -6,26 +6,20 @@ import {
   Section,
   Title,
 } from '@telegram-apps/telegram-ui'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styles from './HomePage.module.scss'
 import { useAppDispatch, useAppSelector } from '@app/store'
+import { logout } from '@entities/auth'
 import { clearChats, selectChats } from '@entities/chat'
-import type { ILoginRequest } from '@/shared/api/types'
 import { useCreateChat } from '../model/useCreateChat'
 
 export const HomePage = () => {
   const navigate = useNavigate()
-  const location = useLocation()
-  const credentials = location.state as ILoginRequest | null
 
   const dispatch = useAppDispatch()
   const chats = useAppSelector(selectChats)
   const { phone, setPhone, errorMessage, isLoading, handleSubmit } =
-    useCreateChat(credentials)
-
-  if (!credentials) {
-    return <Navigate to="/registration" replace />
-  }
+    useCreateChat()
 
   return (
     <div className={styles.page}>
@@ -66,7 +60,7 @@ export const HomePage = () => {
                     subtitle={chat.username ?? `chatId: ${chat.chatId}`}
                     description="Перейти в чат"
                     onClick={() => {
-                      navigate(`/chat/${chat.chatId}`, { state: credentials })
+                      navigate(`/chat/${chat.chatId}`)
                     }}
                   >
                     +{chat.phoneNumber}
@@ -81,6 +75,7 @@ export const HomePage = () => {
               stretched
               mode="outline"
               onClick={() => {
+                dispatch(logout())
                 dispatch(clearChats())
                 navigate('/registration', { replace: true })
               }}
