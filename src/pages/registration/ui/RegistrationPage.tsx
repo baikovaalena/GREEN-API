@@ -1,4 +1,3 @@
-import { type FormEvent, useState } from 'react'
 import {
   Button,
   Input as TelegramInput,
@@ -9,18 +8,9 @@ import {
 import styles from './RegistrationPage.module.scss'
 
 export const RegistrationPage = () => {
-  const [id, setId] = useState('')
-  const [token, setToken] = useState('')
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-  }
-
-  const isSubmitDisabled = !id.trim() || !token.trim()
-
   return (
     <div className={styles.page}>
-      <form className={styles.form} onSubmit={handleSubmit}>
+      <form className={styles.form} onSubmit={() => {}}>
         <List>
           <Title level="1" weight="1" className={styles.title}>
             Регистрация
@@ -28,30 +18,27 @@ export const RegistrationPage = () => {
 
           <Section header="Данные аккаунта">
             <TelegramInput
-              header="Id"
-              placeholder="Введите id"
-              value={id}
-              onChange={(event) => setId(event.target.value)}
+              header="IdInstance"
+              type="number"
+              placeholder="Введите idInstance"
+              value={''}
+              onChange={() => {}}
               autoComplete="username"
             />
             <TelegramInput
-              header="Token"
+              header="ApiTokenInstance"
               type="password"
-              placeholder="Введите token"
-              value={token}
-              onChange={(event) => setToken(event.target.value)}
+              placeholder="Введите apiTokenInstance"
+              value={''}
+              onChange={() => {}}
               autoComplete="current-password"
             />
           </Section>
 
-          <Button
-            type="submit"
-            size="l"
-            stretched
-            mode="filled"
-            disabled={isSubmitDisabled}
-          >
-            Войти
+          <p className={styles.error}></p>
+
+          <Button type="submit" size="l" stretched mode="filled">
+            "Войти"
           </Button>
         </List>
       </form>
