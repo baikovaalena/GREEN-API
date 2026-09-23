@@ -8,20 +8,28 @@ import {
 import styles from './RegistrationPage.module.scss'
 import { useLoginMutation } from '@/shared/api/authApi'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const RegistrationPage = () => {
+  const navigate = useNavigate()
   const [login, { isLoading, error }] = useLoginMutation()
   const [idInstance, setIdInstance] = useState<number | null>(null)
   const [apiTokenInstance, setApiTokenInstance] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!idInstance || !apiTokenInstance) {
       return
     }
 
-    login({ id: idInstance, token: apiTokenInstance })
+    try {
+      await login({ id: idInstance, token: apiTokenInstance }).unwrap()
+      navigate('/home', { state: { id: idInstance, token: apiTokenInstance } })
+    } catch {
+      setErrorMessage('Не удалось выполнить вход')
+    }
   }
 
   if (isLoading) {
@@ -64,7 +72,7 @@ export const RegistrationPage = () => {
           </Section>
 
           <p className={styles.error}>
-            {error ? 'Не удалось выполнить вход' : ''}
+            {error && errorMessage ? 'Не удалось выполнить вход' : ''}
           </p>
 
           <Button type="submit" size="l" stretched mode="filled">

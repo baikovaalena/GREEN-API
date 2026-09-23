@@ -1,14 +1,20 @@
+import { ChatPage } from '@pages/chat'
+import { HomePage } from '@pages/home/ui/HomePage'
 import { RegistrationPage } from '@pages/registration/ui/RegistrationPage'
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
-    path: '/registration',
-    element: <RegistrationPage />,
+    path: '/home',
+    element: <HomePage />,
   },
   {
-    path: '*',
-    element: <Navigate to="/registration" replace />,
+    path: '/chat/:chatId',
+    element: <ChatPage />,
+  },
+  {
+    path: '/registration',
+    element: <RegistrationPage />,
   },
 ])
 
