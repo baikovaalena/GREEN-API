@@ -1,89 +1,34 @@
-import {
-  Button,
-  Cell,
-  Input as TelegramInput,
-  List,
-  Section,
-  Title,
-} from '@telegram-apps/telegram-ui'
+import { Button, List, Title } from '@telegram-apps/telegram-ui'
 import { useNavigate } from 'react-router-dom'
 import styles from './HomePage.module.scss'
-import { useAppDispatch, useAppSelector } from '@app/store'
+import { useAppDispatch } from '@app/store'
 import { logout } from '@entities/auth'
-import { clearChats, selectChats } from '@entities/chat'
-import { useCreateChat } from '../model/useCreateChat'
 
 export const HomePage = () => {
   const navigate = useNavigate()
-
   const dispatch = useAppDispatch()
-  const chats = useAppSelector(selectChats)
-  const { phone, setPhone, errorMessage, isLoading, handleSubmit } =
-    useCreateChat()
 
   return (
     <div className={styles.page}>
       <div className={styles.content}>
-        <form onSubmit={handleSubmit}>
-          <List>
-            <Title level="1" weight="1" className={styles.title}>
-              Создайте новый чат
-            </Title>
+        <List>
+          <Title level="1" weight="1" className={styles.title}>
+            Главная
+          </Title>
 
-            <Section header="Добавить чат">
-              <TelegramInput
-                type="tel"
-                placeholder="Введите номер телефона"
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-                autoComplete="tel"
-              />
-            </Section>
-
-            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-
-            <Button
-              type="submit"
-              size="l"
-              stretched
-              mode="filled"
-              loading={isLoading}
-            >
-              Создать чат
-            </Button>
-
-            {chats.length > 0 && (
-              <Section header="Чаты">
-                {chats.map((chat) => (
-                  <Cell
-                    key={chat.chatId}
-                    subtitle={chat.username ?? `chatId: ${chat.chatId}`}
-                    description="Перейти в чат"
-                    onClick={() => {
-                      navigate(`/chat/${chat.chatId}`)
-                    }}
-                  >
-                    +{chat.phoneNumber}
-                  </Cell>
-                ))}
-              </Section>
-            )}
-
-            <Button
-              type="button"
-              size="l"
-              stretched
-              mode="outline"
-              onClick={() => {
-                dispatch(logout())
-                dispatch(clearChats())
-                navigate('/registration', { replace: true })
-              }}
-            >
-              Выйти
-            </Button>
-          </List>
-        </form>
+          <Button
+            type="button"
+            size="l"
+            stretched
+            mode="outline"
+            onClick={() => {
+              dispatch(logout())
+              navigate('/registration', { replace: true })
+            }}
+          >
+            Выйти
+          </Button>
+        </List>
       </div>
     </div>
   )
