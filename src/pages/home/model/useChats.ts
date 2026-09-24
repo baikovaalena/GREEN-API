@@ -4,12 +4,14 @@ import type { IChat } from '@entities/chat'
 import { useGetChatsQuery } from '@shared/api'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 export const useChats = () => {
   const credentials = useAppSelector(selectCredentials)
   const { data = [] } = useGetChatsQuery(credentials ?? skipToken)
   const [createdChats, setCreatedChats] = useState<IChat[]>([])
-  const [activeChatId, setActiveChatId] = useState<string | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeChatId = searchParams.get('chatId')
 
   const apiChats: IChat[] = data.map((chat) => ({
     chatId: chat.chatId,
@@ -24,6 +26,10 @@ export const useChats = () => {
   ]
   const activeChat = chats.find((chat) => chat.chatId === activeChatId) ?? null
 
+  const handleSelect = (chatId: string | null) => {
+    setSearchParams(chatId ? { chatId } : {})
+  }
+
   const handleCreate = (chat: IChat) => {
     setCreatedChats((currentChats) => {
       if (currentChats.some((item) => item.chatId === chat.chatId)) {
@@ -32,13 +38,13 @@ export const useChats = () => {
 
       return [...currentChats, chat]
     })
-    setActiveChatId(chat.chatId)
+    handleSelect(chat.chatId)
   }
 
   return {
     activeChat,
     chats,
     handleCreate,
-    handleSelect: setActiveChatId,
+    handleSelect,
   }
 }

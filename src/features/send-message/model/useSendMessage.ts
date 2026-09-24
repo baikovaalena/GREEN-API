@@ -6,8 +6,8 @@ import { useState, type FormEvent } from 'react'
 export const useSendMessage = (chatId: string) => {
   const credentials = useAppSelector(selectCredentials)
   const [sendMessage, { isLoading }] = useSendMessageMutation()
-  const [text, setText] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [text, setText] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
