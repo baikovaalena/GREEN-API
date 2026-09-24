@@ -1,88 +1,57 @@
-import {
-  Button,
-  Cell,
-  Input as TelegramInput,
-  List,
-  Section,
-  Title,
-} from '@telegram-apps/telegram-ui'
-import { useCreateChat } from '../model/useCreateChat'
+import { ChatList, MessageList } from '@entities/chat'
+import { CreateChatForm } from '@features/create-chat'
+import { SendMessageForm } from '@features/send-message'
+import { Button, Caption, Placeholder, Title } from '@telegram-apps/telegram-ui'
+import { useChats } from '../model/useChats'
 import styles from './HomePage.module.scss'
 
 export const HomePage = () => {
-  const { chats, errorMessage, handleSubmit, isLoading, phone, setPhone } =
-    useCreateChat()
+  const { activeChat, chats, handleCreate, handleSelect, handleSent } =
+    useChats()
 
   return (
-    <div className={styles.page}>
-      <div className={styles.layout}>
-        <div className={styles.content}>
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <List>
-              <Title level="1" weight="1" className={styles.title}>
-                Создайте новый чат
-              </Title>
-              <p className={styles.subtitle}>
-                Введите номер телефона, чтобы получить chatId и добавить чат в
-                список.
-              </p>
+    <div className={styles.page} data-chat-open={activeChat ? '' : undefined}>
+      <aside className={styles.sidebar}>
+        <CreateChatForm onCreate={handleCreate} />
+        <ChatList
+          chats={chats}
+          activeChatId={activeChat?.chatId ?? null}
+          onSelect={handleSelect}
+        />
+      </aside>
 
-              <Section header="Номер телефона">
-                <TelegramInput
-                  placeholder="Введите номер телефона"
-                  type="tel"
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
-                />
-              </Section>
-
-              {errorMessage && <p className={styles.error}>{errorMessage}</p>}
-
+      <section className={styles.chat}>
+        {activeChat ? (
+          <>
+            <header className={styles.header}>
               <Button
-                type="submit"
-                size="l"
-                stretched
-                mode="filled"
-                loading={isLoading}
-                className={styles.submitButton}
+                className={styles.back}
+                mode="plain"
+                size="s"
+                onClick={() => handleSelect(null)}
               >
-                Получить chatId
-              </Button>
-            </List>
-          </form>
-        </div>
-
-        <aside className={styles.sidebar}>
-          <List>
-            <div className={styles.sidebarHeader}>
-              <Title level="2" weight="2" className={styles.sidebarTitle}>
                 Чаты
-              </Title>
-              <p className={styles.chatCount}>
-                {chats.length > 0 ? `${chats.length} в списке` : 'Пока пусто'}
-              </p>
-            </div>
-
-            <Section>
-              {chats.length > 0 ? (
-                chats.map((chat) => (
-                  <Cell
-                    key={chat.chatId}
-                    subtitle={`chatId: ${chat.chatId}`}
-                    description={`messages: ${chat.messages.length}`}
-                  >
-                    +{chat.phone}
-                  </Cell>
-                ))
-              ) : (
-                <Cell subtitle="Добавленные чаты появятся здесь">
-                  Нет активных чатов
-                </Cell>
-              )}
-            </Section>
-          </List>
-        </aside>
-      </div>
+              </Button>
+              <div>
+                <Title level="3" weight="2">
+                  +{activeChat.phone}
+                </Title>
+                <Caption level="1" className={styles.chatId}>
+                  chatId: {activeChat.chatId}
+                </Caption>
+              </div>
+            </header>
+            <MessageList messages={activeChat.messages} />
+            <SendMessageForm chatId={activeChat.chatId} onSent={handleSent} />
+          </>
+        ) : (
+          <Placeholder
+            className={styles.empty}
+            header="Выберите чат"
+            description="Создайте чат по номеру телефона или откройте его из списка"
+          />
+        )}
+      </section>
     </div>
   )
 }

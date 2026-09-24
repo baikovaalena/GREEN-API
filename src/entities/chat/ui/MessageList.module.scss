@@ -1,0 +1,29 @@
+.list,
+.empty {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble {
+  align-self: flex-end;
+  max-width: min(75%, 480px);
+  padding: 8px 12px;
+  border-radius: 16px 16px 4px 16px;
+  background: var(--tgui--button_color);
+  color: var(--tgui--button_text_color);
+  white-space: pre-wrap;
+}

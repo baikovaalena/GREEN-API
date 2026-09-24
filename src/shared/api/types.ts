@@ -19,3 +19,12 @@ export interface ICheckAccountResponse {
 export interface ILoginResponse {
   stateInstance: InstanceStatus
 }
+
+export interface ISendMessageRequest extends ILoginRequest {
+  chatId: string
+  message: string
+}
+
+export interface ISendMessageResponse {
+  idMessage: string
+}

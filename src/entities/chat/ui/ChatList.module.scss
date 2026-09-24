@@ -1,0 +1,9 @@
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.active {
+  background: var(--tgui--secondary_bg_color);
+}

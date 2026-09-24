@@ -1,15 +1,14 @@
 import { useAppSelector } from '@app/store'
+import type { IChat } from '@entities/chat'
 import { selectCredentials } from '@entities/auth'
 import { useCheckAccountMutation } from '@shared/api'
 import { useState, type FormEvent } from 'react'
-import type { IChatItem } from './types'
 
-export const useCreateChat = () => {
+export const useCreateChat = (onCreate: (chat: IChat) => void) => {
   const credentials = useAppSelector(selectCredentials)
   const [checkAccount, { isLoading }] = useCheckAccountMutation()
   const [phone, setPhone] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [chats, setChats] = useState<IChatItem[]>([])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -31,17 +30,10 @@ export const useCreateChat = () => {
         return
       }
 
-      const { chatId } = response
-
-      setChats((currentChats) => {
-        if (currentChats.some((chat) => chat.chatId === chatId)) {
-          return currentChats
-        }
-
-        return [
-          ...currentChats,
-          { chatId, phone: normalizedPhone, messages: [] },
-        ]
+      onCreate({
+        chatId: response.chatId,
+        phone: normalizedPhone,
+        messages: [],
       })
       setPhone('')
       setErrorMessage('')
@@ -51,7 +43,6 @@ export const useCreateChat = () => {
   }
 
   return {
-    chats,
     errorMessage,
     handleSubmit,
     isLoading,
