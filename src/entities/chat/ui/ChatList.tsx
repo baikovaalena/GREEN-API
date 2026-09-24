@@ -20,7 +20,7 @@ export const ChatList = ({ activeChatId, chats, onSelect }: ChatListProps) => {
                 chat.chatId === activeChatId ? styles.active : undefined
               }
               before={<Avatar size={40} acronym={chat.phone.slice(-2)} />}
-              subtitle={chat.messages.at(-1)?.text ?? `chatId: ${chat.chatId}`}
+              subtitle={`chatId: ${chat.chatId}`}
               onClick={() => onSelect(chat.chatId)}
             >
               +{chat.phone}

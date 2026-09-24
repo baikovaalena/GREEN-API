@@ -1,8 +1,10 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from './baseQuery'
 import type {
+  IChatHistoryMessage,
   ICheckAccountRequest,
   ICheckAccountResponse,
+  IGetChatHistoryRequest,
   ISendMessageRequest,
   ISendMessageResponse,
 } from './types'
@@ -10,6 +12,7 @@ import type {
 export const chatApi = createApi({
   reducerPath: 'chatApi',
   baseQuery,
+  tagTypes: ['History'],
   endpoints: (builder) => ({
     checkAccount: builder.mutation<ICheckAccountResponse, ICheckAccountRequest>(
       {
@@ -26,8 +29,30 @@ export const chatApi = createApi({
         method: 'POST',
         body: { chatId, message },
       }),
+      invalidatesTags: (_result, _error, { chatId }) => [
+        { type: 'History', id: chatId },
+      ],
+    }),
+    getChatHistory: builder.query<
+      IChatHistoryMessage[],
+      IGetChatHistoryRequest
+    >({
+      query: ({ id, token, chatId, count }) => ({
+        url: `/waInstance${id}/getChatHistory/${encodeURIComponent(token)}`,
+        method: 'POST',
+        body: { chatId, count },
+      }),
+      transformResponse: (messages: IChatHistoryMessage[]) =>
+        [...messages].reverse(),
+      providesTags: (_result, _error, { chatId }) => [
+        { type: 'History', id: chatId },
+      ],
     }),
   }),
 })
 
-export const { useCheckAccountMutation, useSendMessageMutation } = chatApi
+export const {
+  useCheckAccountMutation,
+  useGetChatHistoryQuery,
+  useSendMessageMutation,
+} = chatApi

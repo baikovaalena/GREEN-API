@@ -1,13 +1,9 @@
 import { useAppSelector } from '@app/store'
-import type { IMessage } from '@entities/chat'
 import { selectCredentials } from '@entities/auth'
 import { useSendMessageMutation } from '@shared/api'
 import { useState, type FormEvent } from 'react'
 
-export const useSendMessage = (
-  chatId: string,
-  onSent: (message: IMessage) => void,
-) => {
+export const useSendMessage = (chatId: string) => {
   const credentials = useAppSelector(selectCredentials)
   const [sendMessage, { isLoading }] = useSendMessageMutation()
   const [text, setText] = useState('')
@@ -23,13 +19,12 @@ export const useSendMessage = (
     }
 
     try {
-      const response = await sendMessage({
+      await sendMessage({
         ...credentials,
         chatId,
         message,
       }).unwrap()
 
-      onSent({ id: response.idMessage, text: message })
       setText('')
       setErrorMessage('')
     } catch {

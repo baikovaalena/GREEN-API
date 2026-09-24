@@ -33,7 +33,6 @@ export const useCreateChat = (onCreate: (chat: IChat) => void) => {
       onCreate({
         chatId: response.chatId,
         phone: normalizedPhone,
-        messages: [],
       })
       setPhone('')
       setErrorMessage('')

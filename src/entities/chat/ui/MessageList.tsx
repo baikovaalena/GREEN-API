@@ -21,7 +21,12 @@ export const MessageList = ({ messages }: MessageListProps) => {
   return (
     <div className={styles.list}>
       {messages.map((message) => (
-        <Text key={message.id} className={styles.bubble}>
+        <Text
+          key={message.id}
+          className={
+            message.direction === 'incoming' ? styles.incoming : styles.outgoing
+          }
+        >
           {message.text}
         </Text>
       ))}

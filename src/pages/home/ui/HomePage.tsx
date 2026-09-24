@@ -2,12 +2,15 @@ import { ChatList, MessageList } from '@entities/chat'
 import { CreateChatForm } from '@features/create-chat'
 import { SendMessageForm } from '@features/send-message'
 import { Button, Caption, Placeholder, Title } from '@telegram-apps/telegram-ui'
+import { useChatHistory } from '../model/useChatHistory'
 import { useChats } from '../model/useChats'
 import styles from './HomePage.module.scss'
 
 export const HomePage = () => {
-  const { activeChat, chats, handleCreate, handleSelect, handleSent } =
-    useChats()
+  const { activeChat, chats, handleCreate, handleSelect } = useChats()
+  const { isError, isLoading, messages } = useChatHistory(
+    activeChat?.chatId ?? null,
+  )
 
   return (
     <div className={styles.page} data-chat-open={activeChat ? '' : undefined}>
@@ -41,8 +44,17 @@ export const HomePage = () => {
                 </Caption>
               </div>
             </header>
-            <MessageList messages={activeChat.messages} />
-            <SendMessageForm chatId={activeChat.chatId} onSent={handleSent} />
+            {isLoading ? (
+              <Placeholder className={styles.empty} header="Загрузка..." />
+            ) : isError && messages.length === 0 ? (
+              <Placeholder
+                className={styles.empty}
+                header="Не удалось загрузить историю"
+              />
+            ) : (
+              <MessageList messages={messages} />
+            )}
+            <SendMessageForm chatId={activeChat.chatId} />
           </>
         ) : (
           <Placeholder

@@ -1,16 +1,14 @@
 import { Button, Input } from '@telegram-apps/telegram-ui'
-import type { IMessage } from '@entities/chat'
 import { useSendMessage } from '../model/useSendMessage'
 import styles from './SendMessageForm.module.scss'
 
 interface SendMessageFormProps {
   chatId: string
-  onSent: (message: IMessage) => void
 }
 
-export const SendMessageForm = ({ chatId, onSent }: SendMessageFormProps) => {
+export const SendMessageForm = ({ chatId }: SendMessageFormProps) => {
   const { errorMessage, handleSubmit, isLoading, setText, text } =
-    useSendMessage(chatId, onSent)
+    useSendMessage(chatId)
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>

@@ -1,4 +1,4 @@
-import type { IChat, IMessage } from '@entities/chat'
+import type { IChat } from '@entities/chat'
 import { useState } from 'react'
 
 export const useChats = () => {
@@ -18,25 +18,10 @@ export const useChats = () => {
     setActiveChatId(chat.chatId)
   }
 
-  const handleSent = (message: IMessage) => {
-    if (!activeChatId) {
-      return
-    }
-
-    setChats((currentChats) =>
-      currentChats.map((chat) =>
-        chat.chatId === activeChatId
-          ? { ...chat, messages: [...chat.messages, message] }
-          : chat,
-      ),
-    )
-  }
-
   return {
     activeChat,
     chats,
     handleCreate,
     handleSelect: setActiveChatId,
-    handleSent,
   }
 }

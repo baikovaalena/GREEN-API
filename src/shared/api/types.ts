@@ -28,3 +28,20 @@ export interface ISendMessageRequest extends ILoginRequest {
 export interface ISendMessageResponse {
   idMessage: string
 }
+
+export interface IGetChatHistoryRequest extends ILoginRequest {
+  chatId: string
+  count: number
+}
+
+export interface IChatHistoryMessage {
+  type: 'incoming' | 'outgoing'
+  idMessage: string
+  timestamp: number
+  typeMessage: string
+  textMessage?: string
+  caption?: string
+  extendedTextMessage?: {
+    text?: string
+  }
+}
