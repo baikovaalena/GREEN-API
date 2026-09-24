@@ -6,6 +6,16 @@ export interface ILoginRequest {
   token: string
 }
 
+export interface ICheckAccountRequest extends ILoginRequest {
+  phoneNumber: number
+}
+
+export interface ICheckAccountResponse {
+  exist: boolean
+  chatId?: string
+  fromCache?: boolean
+}
+
 export interface ILoginResponse {
   stateInstance: InstanceStatus
 }

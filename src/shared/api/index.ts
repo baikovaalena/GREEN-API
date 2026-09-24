@@ -1,3 +1,9 @@
 export { baseQuery } from './baseQuery'
-export { authApi, useLoginMutation } from './authApi'
-export type { InstanceStatus, ILoginRequest, ILoginResponse } from './types'
+export { authApi, useCheckAccountMutation, useLoginMutation } from './authApi'
+export type {
+  ICheckAccountRequest,
+  ICheckAccountResponse,
+  InstanceStatus,
+  ILoginRequest,
+  ILoginResponse,
+} from './types'

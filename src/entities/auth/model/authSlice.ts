@@ -3,10 +3,6 @@ import type { ILoginRequest } from '@shared/api'
 
 const CREDENTIALS_KEY = 'credentials'
 
-interface AuthState {
-  credentials: ILoginRequest | null
-}
-
 const readCredentials = (): ILoginRequest | null => {
   try {
     const raw = localStorage.getItem(CREDENTIALS_KEY)
@@ -29,13 +25,11 @@ const saveCredentials = (credentials: ILoginRequest | null) => {
   }
 }
 
-const getInitialState = (): AuthState => ({
-  credentials: readCredentials(),
-})
-
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: getInitialState,
+  initialState: {
+    credentials: readCredentials(),
+  },
   reducers: {
     setCredentials: (state, action: PayloadAction<ILoginRequest>) => {
       state.credentials = action.payload

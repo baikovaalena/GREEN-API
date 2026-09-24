@@ -1,19 +1,103 @@
 .page {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+  padding: 24px 16px 32px;
   box-sizing: border-box;
 }
 
+.layout {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
 .content {
-  width: min(100%, 420px);
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar {
+  width: min(360px, 100%);
+  flex-shrink: 0;
+}
+
+.form {
+  width: 100%;
+}
+
+.sidebarTitle {
+  margin: 0;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  padding-inline: 22px;
 }
 
 .title {
+  margin: 0 0 8px;
   padding-inline: 22px;
-  margin-bottom: 8px;
-  text-align: center;
 }
 
+.subtitle {
+  margin: 0 0 4px;
+  padding-inline: 22px;
+  color: var(--tgui--subtitle_text_color, #6b7280);
+  line-height: 1.5;
+}
+
+.chatCount {
+  margin: 6px 0 0;
+  color: var(--tgui--subtitle_text_color, #6b7280);
+  white-space: nowrap;
+}
+
+.submitButton {
+  margin-top: 8px;
+}
+
+.error {
+  margin: 0 0 4px;
+  padding-inline: 22px;
+  color: #e53935;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding-inline: 12px;
+  }
+
+  .sidebarHeader {
+    flex-direction: column;
+    margin-bottom: 12px;
+    padding-inline: 16px;
+  }
+
+  .chatCount {
+    margin-top: 0;
+    white-space: normal;
+  }
+
+  .title,
+  .subtitle,
+  .error {
+    padding-inline: 16px;
+  }
+}

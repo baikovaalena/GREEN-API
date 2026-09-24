@@ -1,6 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 import { baseQuery } from './baseQuery'
-import type { ILoginRequest, ILoginResponse } from './types'
+import type {
+  ICheckAccountRequest,
+  ICheckAccountResponse,
+  ILoginRequest,
+  ILoginResponse,
+} from './types'
 
 export const authApi = createApi({
   reducerPath: 'authApi',
@@ -12,7 +17,16 @@ export const authApi = createApi({
         method: 'GET',
       }),
     }),
+    checkAccount: builder.mutation<ICheckAccountResponse, ICheckAccountRequest>(
+      {
+        query: ({ id, token, phoneNumber }) => ({
+          url: `/waInstance${id}/checkAccount/${encodeURIComponent(token)}`,
+          method: 'POST',
+          body: { phoneNumber },
+        }),
+      },
+    ),
   }),
 })
 
-export const { useLoginMutation } = authApi
+export const { useCheckAccountMutation, useLoginMutation } = authApi
