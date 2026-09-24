@@ -6,5 +6,6 @@ export interface IMessage {
 
 export interface IChat {
   chatId: string
+  name?: string
   phone: string
 }

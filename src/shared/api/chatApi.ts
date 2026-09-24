@@ -5,6 +5,8 @@ import type {
   ICheckAccountRequest,
   ICheckAccountResponse,
   IGetChatHistoryRequest,
+  IGetChatsResponse,
+  ILoginRequest,
   ISendMessageRequest,
   ISendMessageResponse,
 } from './types'
@@ -48,11 +50,18 @@ export const chatApi = createApi({
         { type: 'History', id: chatId },
       ],
     }),
+    getChats: builder.query<IGetChatsResponse[], ILoginRequest>({
+      query: ({ id, token }) => ({
+        url: `/waInstance${id}/getChats/${encodeURIComponent(token)}`,
+        method: 'GET',
+      }),
+    }),
   }),
 })
 
 export const {
   useCheckAccountMutation,
   useGetChatHistoryQuery,
+  useGetChatsQuery,
   useSendMessageMutation,
 } = chatApi

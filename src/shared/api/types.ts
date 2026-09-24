@@ -34,6 +34,14 @@ export interface IGetChatHistoryRequest extends ILoginRequest {
   count: number
 }
 
+export interface IGetChatsResponse {
+  chatId: string
+  name: string
+  type: string
+  phoneNumber: number
+  username: string
+}
+
 export interface IChatHistoryMessage {
   type: 'incoming' | 'outgoing'
   idMessage: string

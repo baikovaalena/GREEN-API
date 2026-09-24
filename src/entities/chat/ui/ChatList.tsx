@@ -19,11 +19,16 @@ export const ChatList = ({ activeChatId, chats, onSelect }: ChatListProps) => {
               className={
                 chat.chatId === activeChatId ? styles.active : undefined
               }
-              before={<Avatar size={40} acronym={chat.phone.slice(-2)} />}
+              before={
+                <Avatar
+                  size={40}
+                  acronym={(chat.name || chat.phone).slice(0, 2).toUpperCase()}
+                />
+              }
               subtitle={`chatId: ${chat.chatId}`}
               onClick={() => onSelect(chat.chatId)}
             >
-              +{chat.phone}
+              {chat.name || `+${chat.phone}`}
             </Cell>
           ))
         ) : (

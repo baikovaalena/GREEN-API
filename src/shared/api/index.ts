@@ -4,6 +4,7 @@ export {
   chatApi,
   useCheckAccountMutation,
   useGetChatHistoryQuery,
+  useGetChatsQuery,
   useSendMessageMutation,
 } from './chatApi'
 export type {
@@ -11,6 +12,7 @@ export type {
   ICheckAccountRequest,
   ICheckAccountResponse,
   IGetChatHistoryRequest,
+  IGetChatsResponse,
   ILoginRequest,
   ILoginResponse,
   ISendMessageRequest,

@@ -37,7 +37,7 @@ export const HomePage = () => {
               </Button>
               <div>
                 <Title level="3" weight="2">
-                  +{activeChat.phone}
+                  {activeChat.name || `+${activeChat.phone}`}
                 </Title>
                 <Caption level="1" className={styles.chatId}>
                   chatId: {activeChat.chatId}
