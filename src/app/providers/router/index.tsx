@@ -1,11 +1,21 @@
 import { HomePage } from '@pages/home/ui/HomePage'
 import { RegistrationPage } from '@pages/registration/ui/RegistrationPage'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import { RequireAuth } from './RequireAuth'
 
 const router = createBrowserRouter([
   {
-    path: '/home',
-    element: <HomePage />,
+    path: '/',
+    element: <Navigate to="/home" replace />,
+  },
+  {
+    element: <RequireAuth />,
+    children: [
+      {
+        path: '/home',
+        element: <HomePage />,
+      },
+    ],
   },
   {
     path: '/registration',

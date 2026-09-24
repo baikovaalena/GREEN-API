@@ -1,5 +1,6 @@
 import { ChatList, MessageList } from '@entities/chat'
 import { CreateChatForm } from '@features/create-chat'
+import { LogoutButton } from '@features/logout'
 import { SendMessageForm } from '@features/send-message'
 import { Button, Caption, Placeholder, Title } from '@telegram-apps/telegram-ui'
 import { useChatHistory } from '../model/useChatHistory'
@@ -24,6 +25,7 @@ export const HomePage = () => {
           activeChatId={activeChat?.chatId ?? null}
           onSelect={handleSelect}
         />
+        <LogoutButton />
       </aside>
 
       <section className={styles.chat}>
