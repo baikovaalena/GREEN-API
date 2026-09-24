@@ -1,2 +1,2 @@
 export { StoreProvider } from './StoreProvider'
-export { AppRouter } from './router/index.tsx'
+export { AppRouter } from './router'

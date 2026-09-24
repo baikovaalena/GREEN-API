@@ -37,12 +37,7 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       state.credentials = null
-
-      try {
-        localStorage.clear()
-      } catch (error) {
-        console.error('Failed to clear storage', error)
-      }
+      saveCredentials(null)
     },
   },
   selectors: {

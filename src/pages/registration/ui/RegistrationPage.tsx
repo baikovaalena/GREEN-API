@@ -11,18 +11,13 @@ import { useRegistrationForm } from '../model/useRegistrationForm'
 export const RegistrationPage = () => {
   const {
     apiTokenInstance,
-    error,
-    errorMessage,
     handleSubmit,
     idInstance,
+    isError,
     isLoading,
     setApiTokenInstance,
     setIdInstance,
   } = useRegistrationForm()
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
 
   return (
     <div className={styles.page}>
@@ -60,10 +55,16 @@ export const RegistrationPage = () => {
           </Section>
 
           <p className={styles.error}>
-            {error && errorMessage ? 'Не удалось выполнить вход' : ''}
+            {isError ? 'Не удалось выполнить вход' : ''}
           </p>
 
-          <Button type="submit" size="l" stretched mode="filled">
+          <Button
+            type="submit"
+            size="l"
+            stretched
+            mode="filled"
+            loading={isLoading}
+          >
             Войти
           </Button>
         </List>

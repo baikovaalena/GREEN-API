@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom'
 export const useRegistrationForm = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const [login, { isLoading, error }] = useLoginMutation()
+  const [login, { isLoading }] = useLoginMutation()
   const [idInstance, setIdInstance] = useState<number | null>(null)
   const [apiTokenInstance, setApiTokenInstance] = useState<string | null>(null)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isError, setIsError] = useState(false)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -19,24 +19,33 @@ export const useRegistrationForm = () => {
       return
     }
 
+    setIsError(false)
+
     try {
-      await login({ id: idInstance, token: apiTokenInstance }).unwrap()
+      const { stateInstance } = await login({
+        id: idInstance,
+        token: apiTokenInstance,
+      }).unwrap()
+
+      if (stateInstance !== 'authorized') {
+        setIsError(true)
+        return
+      }
+
       dispatch(setCredentials({ id: idInstance, token: apiTokenInstance }))
       navigate('/home')
     } catch {
-      setErrorMessage('Не удалось выполнить вход')
+      setIsError(true)
     }
   }
 
   return {
     apiTokenInstance,
-    error,
-    errorMessage,
     handleSubmit,
     idInstance,
+    isError,
     isLoading,
     setApiTokenInstance,
-    setErrorMessage,
     setIdInstance,
   }
 }

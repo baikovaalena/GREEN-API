@@ -1,5 +1,5 @@
-import { HomePage } from '@pages/home/ui/HomePage'
-import { RegistrationPage } from '@pages/registration/ui/RegistrationPage'
+import { HomePage } from '@pages/home'
+import { RegistrationPage } from '@pages/registration'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import { RequireAuth } from './RequireAuth'
 
