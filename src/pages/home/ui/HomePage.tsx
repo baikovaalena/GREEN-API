@@ -4,9 +4,12 @@ import { SendMessageForm } from '@features/send-message'
 import { Button, Caption, Placeholder, Title } from '@telegram-apps/telegram-ui'
 import { useChatHistory } from '../model/useChatHistory'
 import { useChats } from '../model/useChats'
+import { useNotifications } from '../model/useNotifications'
 import styles from './HomePage.module.scss'
 
 export const HomePage = () => {
+  useNotifications()
+
   const { activeChat, chats, handleCreate, handleSelect } = useChats()
   const { isError, isLoading, messages } = useChatHistory(
     activeChat?.chatId ?? null,

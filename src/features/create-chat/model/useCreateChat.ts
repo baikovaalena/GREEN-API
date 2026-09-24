@@ -7,8 +7,8 @@ import { useState, type FormEvent } from 'react'
 export const useCreateChat = (onCreate: (chat: IChat) => void) => {
   const credentials = useAppSelector(selectCredentials)
   const [checkAccount, { isLoading }] = useCheckAccountMutation()
-  const [phone, setPhone] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [phone, setPhone] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()

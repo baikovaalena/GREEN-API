@@ -42,6 +42,20 @@ export interface IGetChatsResponse {
   username: string
 }
 
+export interface INotification {
+  receiptId: number
+  body: {
+    chatId?: string
+    senderData?: {
+      chatId?: string
+    }
+  }
+}
+
+export interface IDeleteNotificationRequest extends ILoginRequest {
+  receiptId: number
+}
+
 export interface IChatHistoryMessage {
   type: 'incoming' | 'outgoing'
   idMessage: string

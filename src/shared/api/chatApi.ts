@@ -4,9 +4,11 @@ import type {
   IChatHistoryMessage,
   ICheckAccountRequest,
   ICheckAccountResponse,
+  IDeleteNotificationRequest,
   IGetChatHistoryRequest,
   IGetChatsResponse,
   ILoginRequest,
+  INotification,
   ISendMessageRequest,
   ISendMessageResponse,
 } from './types'
@@ -56,12 +58,26 @@ export const chatApi = createApi({
         method: 'GET',
       }),
     }),
+    receiveNotification: builder.mutation<INotification | null, ILoginRequest>({
+      query: ({ id, token }) => ({
+        url: `/waInstance${id}/receiveNotification/${encodeURIComponent(token)}?receiveTimeout=20`,
+        method: 'GET',
+      }),
+    }),
+    deleteNotification: builder.mutation<boolean, IDeleteNotificationRequest>({
+      query: ({ id, token, receiptId }) => ({
+        url: `/waInstance${id}/deleteNotification/${encodeURIComponent(token)}/${receiptId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
 })
 
 export const {
   useCheckAccountMutation,
+  useDeleteNotificationMutation,
   useGetChatHistoryQuery,
   useGetChatsQuery,
+  useReceiveNotificationMutation,
   useSendMessageMutation,
 } = chatApi
